@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mlflow
+  template:
+    metadata:
+      labels:
+        app: mlflow
+    spec:
+      containers:
+      - name: mlflow
+        image: ghcr.io/mlflow/mlflow:latest
+        command:
+          - mlflow
+          - server
+          - --backend-store-uri
+          - mysql+pymysql://model_user:model_password@mysql-service:3306/model_db
+          - --default-artifact-root
+          - s3://mlflows3/artifacts
+          - --host
+          - 0.0.0.0
+          - --serve-artifacts
+        env:
+          - name: MLFLOW_S3_ENDPOINT_URL
+            value: http://minio-service:9000
+          - name: AWS_ACCESS_KEY_ID
+            value: admin
+          - name: AWS_SECRET_ACCESS_KEY
+            value: supersecret
+        ports:
+          - containerPort: 5000
