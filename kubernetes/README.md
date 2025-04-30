@@ -53,21 +53,24 @@ docker tag custom-mlflow:latest localhost:32000/custom-mlflow:latest
 docker push localhost:32000/custom-mlflow:latest
 
 ### 2. 📦 Despliegue de servicios
-
+```bash
 # Base de datos
 microk8s kubectl apply -f kubernetes/mysql-pvc.yaml
 microk8s kubectl apply -f kubernetes/mysql-deployment.yaml
 microk8s kubectl apply -f kubernetes/mysql-service.yaml
-
+```bash
 # MinIO
 microk8s kubectl apply -f kubernetes/minio-pvc.yaml
 microk8s kubectl apply -f kubernetes/minio-deployment.yaml
 microk8s kubectl apply -f kubernetes/minio-service.yaml
-
+```bash
 # MLflow
 microk8s kubectl apply -f kubernetes/mlflow-deployment.yaml
 microk8s kubectl apply -f kubernetes/mlflow-service.yaml
 
+
 ### 3. 🪣 Crear bucket en MinIO
 microk8s kubectl apply -f kubernetes/create-minio-bucket.yaml
+
+
 
