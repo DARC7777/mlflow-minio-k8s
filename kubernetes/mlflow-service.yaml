@@ -3,9 +3,12 @@ kind: Service
 metadata:
   name: mlflow-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: mlflow
   ports:
-    - port: 5000
+    - name: http
+      port: 5000
       targetPort: 5000
+      nodePort: 30003
+
